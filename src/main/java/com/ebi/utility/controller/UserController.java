@@ -1,6 +1,5 @@
 package com.ebi.utility.controller;
 
-import com.ebi.utility.domain.User;
 import com.ebi.utility.dto.InputDTO;
 import com.ebi.utility.dto.UserDTO;
 import com.ebi.utility.dto.common.RestResponse;
@@ -30,7 +29,7 @@ public class UserController {
         RestResponse restResponse = userService.addUsers(person.getData()).orElse(null);
         HttpStatus status = HttpStatus.CONFLICT;
         if(null != restResponse && restResponse.isSuccess())
-            status = HttpStatus.OK;
+            status = HttpStatus.CREATED;
         return new ResponseEntity<>(restResponse, status);
     }
 
@@ -48,6 +47,20 @@ public class UserController {
     }
 
     /**
+     * API to get user by id
+     * @param id
+     * @return
+     */
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<RestResponse> getUser(@PathVariable Long id) {
+        RestResponse restResponse = userService.getUser(id).orElse(null);
+        HttpStatus status = HttpStatus.NOT_FOUND;
+        if(null != restResponse && restResponse.isSuccess())
+            status = HttpStatus.CREATED;
+        return new ResponseEntity<>(restResponse, status);
+    }
+
+    /**
      * API to add user
      * @param userDTO
      * @return
@@ -55,6 +68,35 @@ public class UserController {
     @PostMapping(value = "/add")
     public ResponseEntity<RestResponse> addUser(@RequestBody UserDTO userDTO) {
         RestResponse restResponse = userService.addUser(userDTO).orElse(null);
+        HttpStatus status = HttpStatus.CONFLICT;
+        if(null != restResponse && restResponse.isSuccess())
+            status = HttpStatus.CREATED;
+        return new ResponseEntity<>(restResponse, status);
+    }
+
+    /**
+     * API to update user by id
+     * @param id
+     * @param userDTO
+     * @return
+     */
+    @PutMapping(value = "/update/{id}")
+    public ResponseEntity<RestResponse> updateUser(@PathVariable Long id, @RequestBody UserDTO userDTO) {
+        RestResponse restResponse = userService.updateUser(id, userDTO).orElse(null);
+        HttpStatus status = HttpStatus.NOT_FOUND;
+        if(null != restResponse && restResponse.isSuccess())
+            status = HttpStatus.CREATED;
+        return new ResponseEntity<>(restResponse, status);
+    }
+
+    /**
+     * API to delete user by id
+     * @param id
+     * @return
+     */
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<RestResponse> deleteUser(@PathVariable Long id) {
+        RestResponse restResponse = userService.deleteUser(id).orElse(null);
         HttpStatus status = HttpStatus.CONFLICT;
         if(null != restResponse && restResponse.isSuccess())
             status = HttpStatus.OK;
