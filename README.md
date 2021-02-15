@@ -27,3 +27,15 @@ Open a terminal and inside project root folder run below commands,
 docker-compose build
 docker-compose up
 ```
+
+## CURL Requests
+
+CURL request added for CREATE, GET, LIST, UPDATE, DELETE APIs in script folder at root location.
+
+1. [Insert user batch](https://github.com/patilharshal16/user-utility/blob/master/script/addUsersList.sh)
+2. [Create User](https://github.com/patilharshal16/user-utility/blob/master/script/addUser.sh)
+3. [List users](https://github.com/patilharshal16/user-utility/blob/master/script/listUsers.sh)
+4. [Get user by id](https://github.com/patilharshal16/user-utility/blob/master/script/getUser.sh)
+5. [Update user](https://github.com/patilharshal16/user-utility/blob/master/script/updateUser.sh)
+6. [Delete user](https://github.com/patilharshal16/user-utility/blob/master/script/deleteUser.sh)
+
