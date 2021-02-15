@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * @author Harshal Patil
  */
-@Data
+//@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class FieldValidationException extends RuntimeException {
