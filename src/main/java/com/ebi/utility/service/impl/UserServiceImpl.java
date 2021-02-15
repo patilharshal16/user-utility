@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @author Harshal Patil
@@ -34,8 +35,17 @@ public class UserServiceImpl implements UserService {
         restResponse.setSuccess(true);
         try {
             List<User> users = userTransformer.toEntityList(usersDTO);
-            users = userRepository.saveAll(users);
-            restResponse.addData("users", userTransformer.toDtoList(users));
+
+            // Not empty check for user first and last name added
+            users = validateFirstNameAndLastName(users);
+
+            if(!users.isEmpty()) {
+                users = userRepository.saveAll(users);
+                restResponse.addData("users", userTransformer.toDtoList(users));
+            } else {
+                restResponse.setSuccess(false);
+                restResponse.setMessage("First name or last name is empty/null");
+            }
         } catch (Exception e) {
             restResponse.setSuccess(false);
             restResponse.setError(e.getMessage(), "500");
@@ -43,6 +53,18 @@ public class UserServiceImpl implements UserService {
             return Optional.of(restResponse);
         }
         return Optional.of(restResponse);
+    }
+
+    /**
+     * Check if first name and last name is empty
+     * @param users
+     */
+    private List<User> validateFirstNameAndLastName(List<User> users) {
+        users = users.stream()
+                .filter(s -> null != s.getFirst_name() && !s.getFirst_name().isEmpty())
+                .filter(s -> null != s.getLast_name() && !s.getLast_name().isEmpty())
+                .collect(Collectors.toList());
+        return users;
     }
 
     /**
