@@ -39,3 +39,12 @@ CURL request added for CREATE, GET, LIST, UPDATE, DELETE APIs in script folder a
 5. [Update user](https://github.com/patilharshal16/user-utility/blob/master/script/updateUser.sh)
 6. [Delete user](https://github.com/patilharshal16/user-utility/blob/master/script/deleteUser.sh)
 
+## H2 console details
+[Click here ](http://localhost:8180/api/db/) to visit H2 console.
+```
+url: http://localhost:8180/api/db/
+Driver Class: org.h2.Driver
+JDBC URL: jdbc:h2:mem:ebi
+username: root
+password: root
+```
