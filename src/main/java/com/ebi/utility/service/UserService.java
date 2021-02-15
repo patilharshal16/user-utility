@@ -31,4 +31,25 @@ public interface UserService {
      * @return
      */
     Optional<RestResponse> getUsers();
+
+    /**
+     * Get User by Id
+     * @param id
+     * @return
+     */
+    Optional<RestResponse> getUser(Long id);
+
+    /**
+     * Method to delete user by id
+     * @param id
+     * @return
+     */
+    Optional<RestResponse> deleteUser(Long id);
+
+    /**
+     * Method to update user by id
+     * @param users
+     * @return
+     */
+    Optional<RestResponse> updateUser(Long id, UserDTO users);
 }

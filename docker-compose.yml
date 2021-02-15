@@ -1,0 +1,10 @@
+version: '3.2'
+services:
+  utility:
+    container_name: utility
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: utility:latest
+    expose:
+      - 8180

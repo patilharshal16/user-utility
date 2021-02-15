@@ -86,4 +86,95 @@ public class UserServiceImpl implements UserService {
         }
         return Optional.of(restResponse);
     }
+
+    /**
+     * Method to get User by Id
+     * @param id
+     * @return Optional<RestResponse>
+     */
+    public Optional<RestResponse> getUser(Long id) {
+        RestResponse restResponse = new RestResponse();
+        restResponse.setSuccess(true);
+        try {
+            Optional<User> userOptional = userRepository.findById(id);
+
+            if(userOptional.isPresent()) {
+                restResponse.addData("updatedUser", userTransformer.toDto(userOptional.get()));
+                restResponse.setMessage("user updated!");
+            } else {
+                restResponse.setMessage("user not found!");
+            }
+        } catch (Exception e) {
+            restResponse.setSuccess(false);
+            restResponse.setError(e.getMessage(), "500");
+            restResponse.setMessage("Something went wrong");
+            return Optional.of(restResponse);
+        }
+        return Optional.of(restResponse);
+    }
+
+    /**
+     * Method to update existing user
+     * @param id
+     * @param userDTO
+     * @return
+     */
+    public Optional<RestResponse> updateUser(Long id, UserDTO userDTO) {
+        RestResponse restResponse = new RestResponse();
+        restResponse.setSuccess(true);
+        try {
+            Optional<User> userOptional = userRepository.findById(id);
+
+            if(userOptional.isPresent()) {
+                User user = updateExistingUser(userDTO, userOptional);
+                user = userRepository.save(user);
+                restResponse.addData("updatedUser", userTransformer.toDto(user));
+                restResponse.setMessage("user updated!");
+            } else {
+                restResponse.setMessage("user not found!");
+            }
+
+        } catch (Exception e) {
+            restResponse.setSuccess(false);
+            restResponse.setError(e.getMessage(), "500");
+            restResponse.setMessage("Something went wrong");
+            return Optional.of(restResponse);
+        }
+        return Optional.of(restResponse);
+    }
+
+    /**
+     * Method to delete user by id
+     * @param id
+     * @return RestResponse
+     */
+    public Optional<RestResponse> deleteUser(Long id) {
+        RestResponse restResponse = new RestResponse();
+        restResponse.setSuccess(true);
+        try {
+            userRepository.deleteById(id);
+            restResponse.setMessage("User deleted successfully!");
+        } catch (Exception e) {
+            restResponse.setSuccess(false);
+            restResponse.setError(e.getMessage(), "500");
+            restResponse.setMessage("Something went wrong");
+            return Optional.of(restResponse);
+        }
+        return Optional.of(restResponse);
+    }
+
+    /**
+     * Update existing user
+     * @param userDTO
+     * @param userOptional
+     * @return
+     */
+    private User updateExistingUser(UserDTO userDTO, Optional<User> userOptional) {
+        User user = userOptional.get();
+        user.setFirst_name(userDTO.getFirst_name());
+        user.setLast_name(userDTO.getLast_name());
+        user.setAge(userDTO.getAge());
+        user.setFavourite_colour(userDTO.getFavourite_colour());
+        return user;
+    }
 }
